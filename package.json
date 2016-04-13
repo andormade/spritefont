@@ -1,0 +1,32 @@
+{
+  "name": "letter-sprite",
+  "author": {
+    "name": "Andor Polgar",
+    "email": "hngrhorace@gmail.com",
+    "url": "http://polgarand.org"
+  },
+  "keywords": [
+    "sprite",
+    "generator",
+    "letter"
+  ],
+  "version": "0.0.1",
+  "description": "Renders letter sprites",
+  "main": "dist/index.js",
+  "scripts": {
+    "build:babel": "babel src --out-dir dist",
+    "build:browserify": "mkdir -p browser && browserify dist/index.js --standalone LetterSprite > browser/letter-sprite.js",
+    "build": "npm run build:babel && npm run build:browserify",
+    "test": "mocha tests/*.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:hngrhorace/letter-sprite.git"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.5.1",
+    "babel-plugin-add-module-exports": "^0.1.2",
+    "babel-preset-es2015": "^6.5.0",
+    "browserify": "^13.0.0"
+  }
+}
