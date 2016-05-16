@@ -10,7 +10,7 @@
     "generator",
     "letter"
   ],
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Renders letter sprites",
   "main": "dist/index.js",
   "scripts": {

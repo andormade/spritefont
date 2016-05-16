@@ -73,6 +73,25 @@ export default class LetterSprite {
 	}
 
 	/**
+	 * Returns with the position of the specified letter.
+	 *
+	 * @param {number} char
+	 * @param {string} bgColor
+	 * @param {string} fgColor
+	 *
+	 * @returns {array}
+	 */
+	getLetterPosition(char, bgColor, fgColor) {
+		let offsetX = this.index[bgColor + fgColor].offsetX;
+		let offsetY = this.index[bgColor + fgColor].offsetY;
+
+		let x = Math.floor(char / this.rows) * this.characterWidth;
+		let y = Math.floor(char % this.rows) * this.characterHeight;
+
+		return [x + offsetX, y + offsetY];
+	}
+
+	/**
 	 * Returns with the specified letter's image data.
 	 *
 	 * @param {number} char
@@ -82,13 +101,9 @@ export default class LetterSprite {
 	 * @returns {object}
 	 */
 	getLetterImageData(char, bgColor, fgColor) {
-		var offsetX = this.index[bgColor + fgColor].offsetX;
-		var offsetY = this.index[bgColor + fgColor].offsetY;
+		let [x, y] = this.getLetterPosition(char, bgColor, fgColor);
 
-		var x = Math.floor(char / this.rows) * this.characterWidth;
-		var y = Math.floor(char % this.rows) * this.characterHeight;
-
-		return this.context.getImageData(x + offsetX, y + offsetY,
-			this.characterWidth, this.characterHeight);
+		return this.context.getImageData(x, y, this.characterWidth,
+			this.characterHeight);
 	}
 }
