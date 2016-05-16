@@ -92,7 +92,33 @@ export default class LetterSprite {
 	}
 
 	/**
-	 * Returns with the specified letter's image data.
+	 * Draws the spcified letter to the specified context.
+	 *
+	 * @param {object} context
+	 * @param {number} char
+	 * @param {string} bgColor
+	 * @param {string} fgColor
+	 * @param {number} posX
+	 * @param {number} posY
+	 *
+	 * @returns {void}
+	 */
+	letMeDrawIt(context, char, bgColor, fgColor, posX, posY) {
+		let [x, y] = this.getLetterPosition(char, bgColor, fgColor);
+
+		context.drawImage(
+			this.canvas,
+			x, y,
+			this.characterWidth,
+			this.characterHeight,
+			posX, posY,
+			this.characterWidth,
+			this.characterHeight
+		);
+	}
+
+	/**
+	 * Returns with the specified letter's image data. (It's very slow.)
 	 *
 	 * @param {number} char
 	 * @param {string} bgColor
