@@ -1,7 +1,15 @@
 export default class LetterSprite {
 	constructor(stencil, rows, cols, bgColors, fgColors) {
 		this.index = [];
-		this.stencil = stencil;
+
+		if (typeof stencil === 'string') {
+			this.stencil = document.createElement('img');
+			this.stencil.src = stencil;
+		}
+		else {
+			this.stencil = stencil;
+		}
+
 		this.bgColors = bgColors;
 		this.fgColors = fgColors;
 		this.rows = rows;
@@ -29,6 +37,11 @@ export default class LetterSprite {
 				let offsetX = j * this.stencilWidth;
 				let offsetY = i * this.stencilHeight;
 
+				this.index[bgColor + fgColor] = {
+					offsetX : offsetX,
+					offsetY : offsetY
+				};
+
 				this.renderPart(
 					offsetX,
 					offsetY,
@@ -40,11 +53,6 @@ export default class LetterSprite {
 	}
 
 	renderPart(offsetX, offsetY, bgColor, fgColor) {
-		this.index[bgColor + fgColor] = {
-			offsetX : offsetX,
-			offsetY : offsetY
-		};
-
 		this.context.imageSmoothingEnabled = false;
 
 		this.context.save();
