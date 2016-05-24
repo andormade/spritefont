@@ -37,7 +37,7 @@ export default class LetterSprite {
 				let offsetX = j * this.stencilWidth;
 				let offsetY = i * this.stencilHeight;
 
-				this.index[bgColor + fgColor] = {
+				this.index[this.bgColors[i] + this.fgColors[j]] = {
 					offsetX : offsetX,
 					offsetY : offsetY
 				};
