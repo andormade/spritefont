@@ -14,10 +14,10 @@ export default class LetterSprite {
 		this.fgColors = fgColors;
 		this.rows = rows;
 		this.cols = cols;
-		this.stencilWidth = stencil.width;
-		this.stencilHeight = stencil.height;
-		this.characterWidth = stencil.width / cols;
-		this.characterHeight = stencil.height / rows;
+		this.stencilWidth = this.stencil.width;
+		this.stencilHeight = this.stencil.height;
+		this.characterWidth = this.stencil.width / cols;
+		this.characterHeight = this.stencil.height / rows;
 
 		this.render();
 	}
