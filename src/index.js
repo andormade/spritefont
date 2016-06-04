@@ -3,7 +3,7 @@ export default class LetterSprite {
 		this.index = [];
 
 		if (typeof stencil === 'string') {
-			this.stencil = document.createElement('img');
+			this.stencil = new Image();
 			this.stencil.src = stencil;
 		}
 		else {
