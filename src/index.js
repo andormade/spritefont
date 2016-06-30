@@ -30,10 +30,6 @@ export default class LetterSprite {
 
 		for (var i = 0; i < this.bgColors.length; i++) {
 			for (var j = 0; j < this.fgColors.length; j++) {
-				if (this.fgColors[i] === this.bgColors[j]) {
-					continue;
-				}
-
 				let offsetX = j * this.stencilWidth;
 				let offsetY = i * this.stencilHeight;
 

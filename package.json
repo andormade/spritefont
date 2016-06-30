@@ -10,14 +10,14 @@
     "generator",
     "letter"
   ],
-  "version": "0.0.8",
+  "version": "0.0.13",
   "description": "Renders letter sprites",
   "main": "dist/index.js",
   "scripts": {
     "build:babel": "babel src --out-dir dist",
     "build:browserify": "mkdir -p browser && browserify dist/index.js --standalone LetterSprite > browser/letter-sprite.js",
     "build": "npm run build:babel && npm run build:browserify",
-    "test": "mocha tests/*.js"
+	"prepublish": "npm run build"
   },
   "repository": {
     "type": "git",
