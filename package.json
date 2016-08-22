@@ -1,27 +1,29 @@
 {
-  "name": "letter-sprite",
+  "name": "spritefont",
   "author": {
     "name": "Andor Polgar",
     "email": "hngrhorace@gmail.com",
-    "url": "http://polgarand.org"
+    "url": "http://andor.cool"
   },
+  "license": "MIT",
   "keywords": [
     "sprite",
     "generator",
-    "letter"
+    "font",
+	"letter"
   ],
-  "version": "0.0.13",
-  "description": "Renders letter sprites",
+  "version": "0.0.14",
+  "description": "Renders sprite fonts",
   "main": "dist/index.js",
   "scripts": {
     "build:babel": "babel src --out-dir dist",
-    "build:browserify": "mkdir -p browser && browserify dist/index.js --standalone LetterSprite > browser/letter-sprite.js",
+    "build:browserify": "mkdir -p browser && browserify dist/index.js --standalone SpriteFont > browser/spritefont.js",
     "build": "npm run build:babel && npm run build:browserify",
 	"prepublish": "npm run build"
   },
   "repository": {
     "type": "git",
-    "url": "git@github.com:hngrhorace/letter-sprite.git"
+    "url": "git@github.com:hngrhorace/spritefont.git"
   },
   "devDependencies": {
     "babel-cli": "^6.5.1",
