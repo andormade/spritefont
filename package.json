@@ -10,28 +10,25 @@
     "sprite",
     "generator",
     "font",
-    "letter"
+	"letter"
   ],
-  "version": "0.1.0",
+  "version": "0.0.14",
   "description": "Renders sprite fonts",
   "main": "dist/index.js",
   "scripts": {
     "build:babel": "babel src --out-dir dist",
     "build:browserify": "mkdir -p browser && browserify dist/index.js --standalone SpriteFont > browser/spritefont.js",
     "build": "npm run build:babel && npm run build:browserify",
-    "prepublish": "npm run build"
+	"prepublish": "npm run build"
   },
   "repository": {
     "type": "git",
-    "url": "git@github.com:andormade/spritefont.git"
+    "url": "git@github.com:hngrhorace/spritefont.git"
   },
   "devDependencies": {
     "babel-cli": "^6.5.1",
     "babel-plugin-add-module-exports": "^0.1.2",
     "babel-preset-es2015": "^6.5.0",
     "browserify": "^13.0.0"
-  },
-  "dependencies": {
-    "core-js": "^2.4.1"
   }
 }

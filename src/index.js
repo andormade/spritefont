@@ -1,5 +1,3 @@
-import Promise from 'core-js/library/es6/promise';
-
 export default class LetterSprite {
 	constructor(stencil, rows, cols, bgColors, fgColors) {
 		this.index = [];
@@ -16,53 +14,15 @@ export default class LetterSprite {
 		this.fgColors = fgColors;
 		this.rows = rows;
 		this.cols = cols;
-		this.isRendered = false;
-	}
-
-	/**
-	 * Renders the sprite font.
-	 *
-	 * @returns {object} Returns a promise.
-	 */
-	render() {
-		return new Promise((resolve, reject) => {
-			if (this.isRendered) {
-				resolve();
-			}
-
-			if (!this.stencil instanceof Image) {
-				reject();
-			}
-
-			if (this.stencil.complete) {
-				this.renderSync();
-				resolve();
-			}
-			else {
-				this.stencil.addEventListener('load', () => {
-					this.renderSync();
-					resolve();
-				});
-			}
-		});
-	}
-
-	/**
-	 * Expects the stencil image to be loaded already, renders the sprite font.
-	 *
-	 * @returns {void}
-	 */
-	renderSync() {
-		if (!this.stencil.complete) {
-			this.isRendered = false;
-			return;
-		}
-
 		this.stencilWidth = this.stencil.width;
 		this.stencilHeight = this.stencil.height;
-		this.characterWidth = this.stencil.width / this.cols;
-		this.characterHeight = this.stencil.height / this.rows;
+		this.characterWidth = this.stencil.width / cols;
+		this.characterHeight = this.stencil.height / rows;
 
+		this.render();
+	}
+
+	render() {
 		this.canvas = document.createElement('canvas');
 		this.canvas.width = this.stencilWidth * this.fgColors.length;
 		this.canvas.height = this.stencilHeight * this.bgColors.length;
@@ -78,7 +38,7 @@ export default class LetterSprite {
 					offsetY : offsetY
 				};
 
-				this._renderPart(
+				this.renderPart(
 					offsetX,
 					offsetY,
 					this.bgColors[i],
@@ -86,62 +46,9 @@ export default class LetterSprite {
 				);
 			}
 		}
-
-		this.isRendered = true;
 	}
 
-	/**
-	 * Draws the spcified letter to the specified context.
-	 *
-	 * @param {object} context
-	 * @param {number} char
-	 * @param {string} bgColor
-	 * @param {string} fgColor
-	 * @param {number} posX
-	 * @param {number} posY
-	 *
-	 * @returns {void}
-	 */
-	letMeDrawIt(context, char, bgColor, fgColor, posX, posY) {
-		return this.render().then(() => {
-			let [x, y] = this._getLetterPosition(char, bgColor, fgColor);
-
-			context.drawImage(
-				this.canvas,
-				x, y,
-				this.characterWidth,
-				this.characterHeight,
-				posX, posY,
-				this.characterWidth,
-				this.characterHeight
-			);
-		});
-	}
-
-	/**
-	 * Returns with the position of the specified letter.
-	 *
-	 * @param {number} char
-	 * @param {string} bgColor
-	 * @param {string} fgColor
-	 *
-	 * @returns {array}
-	 */
-	_getLetterPosition(char, bgColor, fgColor) {
-		if (!this.isRendered) {
-			return [0, 0];
-		}
-
-		let offsetX = this.index[bgColor + fgColor].offsetX;
-		let offsetY = this.index[bgColor + fgColor].offsetY;
-
-		let x = Math.floor(char / this.rows) * this.characterWidth;
-		let y = Math.floor(char % this.rows) * this.characterHeight;
-
-		return [x + offsetX, y + offsetY];
-	}
-
-	_renderPart(offsetX, offsetY, bgColor, fgColor) {
+	renderPart(offsetX, offsetY, bgColor, fgColor) {
 		this.context.imageSmoothingEnabled = false;
 
 		this.context.save();
@@ -167,5 +74,66 @@ export default class LetterSprite {
 			this.stencilHeight);
 
 		this.context.restore();
+	}
+
+	/**
+	 * Returns with the position of the specified letter.
+	 *
+	 * @param {number} char
+	 * @param {string} bgColor
+	 * @param {string} fgColor
+	 *
+	 * @returns {array}
+	 */
+	getLetterPosition(char, bgColor, fgColor) {
+		let offsetX = this.index[bgColor + fgColor].offsetX;
+		let offsetY = this.index[bgColor + fgColor].offsetY;
+
+		let x = Math.floor(char / this.rows) * this.characterWidth;
+		let y = Math.floor(char % this.rows) * this.characterHeight;
+
+		return [x + offsetX, y + offsetY];
+	}
+
+	/**
+	 * Draws the spcified letter to the specified context.
+	 *
+	 * @param {object} context
+	 * @param {number} char
+	 * @param {string} bgColor
+	 * @param {string} fgColor
+	 * @param {number} posX
+	 * @param {number} posY
+	 *
+	 * @returns {void}
+	 */
+	letMeDrawIt(context, char, bgColor, fgColor, posX, posY) {
+		let [x, y] = this.getLetterPosition(char, bgColor, fgColor);
+
+		context.drawImage(
+			this.canvas,
+			x, y,
+			this.characterWidth,
+			this.characterHeight,
+			posX, posY,
+			this.characterWidth,
+			this.characterHeight
+		);
+	}
+
+	/**
+	 * Returns with the specified letter's image data. (It's very slow.)
+	 *
+	 * @param {number} char
+	 * @param {string} bgColor
+	 * @param {string} fgColor
+	 *
+	 * @returns {object}
+	 */
+	getLetterImageData(char, bgColor, fgColor) {
+		let [x, y] = this.getLetterPosition(char, bgColor, fgColor);
+
+		return this.context.getImageData(x, y, this.characterWidth,
+			this.characterHeight);
 	}
 }
