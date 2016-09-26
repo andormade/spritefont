@@ -103,19 +103,21 @@ export default class LetterSprite {
 	 * @returns {void}
 	 */
 	letMeDrawIt(context, char, bgColor, fgColor, posX, posY) {
-		return this.render().then(() => {
-			let [x, y] = this._getLetterPosition(char, bgColor, fgColor);
+		if (!this.isRendered) {
+			return;
+		}
 
-			context.drawImage(
-				this.canvas,
-				x, y,
-				this.characterWidth,
-				this.characterHeight,
-				posX, posY,
-				this.characterWidth,
-				this.characterHeight
-			);
-		});
+		let [x, y] = this._getLetterPosition(char, bgColor, fgColor);
+
+		context.drawImage(
+			this.canvas,
+			x, y,
+			this.characterWidth,
+			this.characterHeight,
+			posX, posY,
+			this.characterWidth,
+			this.characterHeight
+		);
 	}
 
 	/**
