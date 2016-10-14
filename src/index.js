@@ -1,7 +1,25 @@
 import Promise from 'core-js/library/es6/promise';
 
 export default class LetterSprite {
-	constructor(stencil, rows, cols, bgColors, fgColors) {
+	stencil: object;
+	bgColors: array;
+	fgColors: array;
+	rows: number;
+	cols: number;
+	isRendered: boolean;
+	stencilWidth: number;
+	stencilHeight: number;
+	characterWidth: number;
+	characterHeight: number;
+	context: object;
+
+	constructor(
+		stencil: any,
+		rows: number,
+		cols: number,
+		bgColors: array,
+		fgColors: array
+	) {
 		this.index = [];
 
 		if (typeof stencil === 'string') {
@@ -52,7 +70,7 @@ export default class LetterSprite {
 	 *
 	 * @returns {void}
 	 */
-	renderSync() {
+	renderSync(): void {
 		if (!this.stencil.complete) {
 			this.isRendered = false;
 			return;
@@ -70,8 +88,8 @@ export default class LetterSprite {
 
 		for (var i = 0; i < this.bgColors.length; i++) {
 			for (var j = 0; j < this.fgColors.length; j++) {
-				let offsetX = j * this.stencilWidth;
-				let offsetY = i * this.stencilHeight;
+				let offsetX: number = j * this.stencilWidth;
+				let offsetY: number = i * this.stencilHeight;
 
 				this.index[this.bgColors[i] + this.fgColors[j]] = {
 					offsetX : offsetX,
@@ -102,7 +120,14 @@ export default class LetterSprite {
 	 *
 	 * @returns {void}
 	 */
-	letMeDrawIt(context, char, bgColor, fgColor, posX, posY) {
+	letMeDrawIt(
+		context: object,
+		char: number,
+		bgColor: string,
+		fgColor: string,
+		posX: number,
+		posY: number
+	): void {
 		if (!this.isRendered) {
 			return;
 		}
@@ -129,21 +154,26 @@ export default class LetterSprite {
 	 *
 	 * @returns {array}
 	 */
-	_getLetterPosition(char, bgColor, fgColor) {
+	_getLetterPosition(char: number, bgColor: string, fgColor: string): array {
 		if (!this.isRendered) {
 			return [0, 0];
 		}
 
-		let offsetX = this.index[bgColor + fgColor].offsetX;
-		let offsetY = this.index[bgColor + fgColor].offsetY;
+		let offsetX: number = this.index[bgColor + fgColor].offsetX;
+		let offsetY: number = this.index[bgColor + fgColor].offsetY;
 
-		let x = Math.floor(char / this.rows) * this.characterWidth;
-		let y = Math.floor(char % this.rows) * this.characterHeight;
+		let x: number = Math.floor(char / this.rows) * this.characterWidth;
+		let y: number = Math.floor(char % this.rows) * this.characterHeight;
 
 		return [x + offsetX, y + offsetY];
 	}
 
-	_renderPart(offsetX, offsetY, bgColor, fgColor) {
+	_renderPart(
+		offsetX: number,
+		offsetY: number,
+		bgColor: string,
+		fgColor: string
+	): void {
 		this.context.imageSmoothingEnabled = false;
 
 		this.context.save();
