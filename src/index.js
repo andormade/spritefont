@@ -1,5 +1,3 @@
-import Promise from 'core-js/library/es6/promise';
-
 export default class LetterSprite {
 	stencil: object;
 	bgColors: array;
