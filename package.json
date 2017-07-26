@@ -19,7 +19,8 @@
     "build:babel": "babel src --out-dir dist",
     "build:browserify": "mkdir -p browser && browserify dist/index.js --standalone SpriteFont > browser/spritefont.js",
     "build": "npm run build:babel && npm run build:browserify",
-    "prepare": "npm run build"
+    "prepare": "npm run build",
+    "test": "npm run build:babel && mocha"
   },
   "repository": {
     "type": "git",
@@ -28,6 +29,7 @@
   "devDependencies": {
     "babel-cli": "^6.24.1",
     "babel-plugin-add-module-exports": "^0.2.1",
+    "babel-plugin-transform-object-rest-spread": "^6.23.0",
     "babel-preset-env": "^1.6.0",
     "babel-preset-flow": "^6.23.0",
     "browserify": "^14.4.0",
