@@ -12,15 +12,13 @@
     "font",
     "letter"
   ],
-  "version": "0.1.2",
+  "version": "1.0.0",
   "description": "Renders sprite fonts",
   "main": "dist/index.js",
   "scripts": {
-    "build:babel": "babel src --out-dir dist",
-    "build:browserify": "mkdir -p browser && browserify dist/index.js --standalone SpriteFont > browser/spritefont.js",
-    "build": "npm run build:babel && npm run build:browserify",
+    "build": "babel src --out-dir dist",
     "prepare": "npm run build",
-    "test": "npm run build:babel && mocha"
+    "test": "npm run build && mocha"
   },
   "repository": {
     "type": "git",
@@ -32,8 +30,11 @@
     "babel-plugin-transform-object-rest-spread": "^6.23.0",
     "babel-preset-env": "^1.6.0",
     "babel-preset-flow": "^6.23.0",
-    "browserify": "^14.4.0",
     "mocha": "^3.4.2",
-    "nyc": "^11.0.3"
+    "nyc": "^11.0.3",
+    "pngjs": "^3.2.0"
+  },
+  "dependencies": {
+    "functional-paint": "0.0.3"
   }
 }

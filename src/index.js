@@ -1,201 +1,65 @@
-export default class LetterSprite {
-	stencil: object;
-	bgColors: array;
-	fgColors: array;
-	rows: number;
-	cols: number;
-	isRendered: boolean;
-	stencilWidth: number;
-	stencilHeight: number;
-	characterWidth: number;
-	characterHeight: number;
-	context: object;
+import * as FunPaint from 'functional-paint';
 
-	constructor(
-		stencil: any,
-		rows: number,
-		cols: number,
-		bgColors: array,
-		fgColors: array
-	) {
-		this.index = [];
+const DEFAULT_CHANNEL_COUNT = 4;
 
-		if (typeof stencil === 'string') {
-			this.stencil = new Image();
-			this.stencil.src = stencil;
+export function hexColorToArray(hexColor: string, alpha: number = 1): array {
+	let regex = /#([0-9A-Fa-f]{2})([0-9A-Fa-f]{2})([0-9A-Fa-f]{2})/;
+	let red: number, green: number, blue: number;
+	[, red, green, blue] = hexColor.match(regex);
+
+	return [
+		parseInt(red, 16),
+		parseInt(green, 16),
+		parseInt(blue, 16),
+		alpha * 255
+	];
+}
+
+function getStencilHeight(buffer, width) {
+	return (buffer.length / DEFAULT_CHANNEL_COUNT) / width;
+}
+
+function forEachColor(
+	bgColors: array,
+	fgColors: array,
+	stencilWidth: number,
+	stencilHeight: number,
+	callback: mixed
+) {
+	for (let i = 0; i < bgColors.length; i++) {
+		for (let j = 0; j < fgColors.length; j++) {
+			let bgColor = hexColorToArray(bgColors[i]),
+				fgColor = hexColorToArray(fgColors[j]);
+
+			callback(bgColor, fgColor, i * stencilWidth, j * stencilHeight);
 		}
-		else {
-			this.stencil = stencil;
-		}
-
-		this.bgColors = bgColors;
-		this.fgColors = fgColors;
-		this.rows = rows;
-		this.cols = cols;
-		this.isRendered = false;
-	}
-
-	/**
-	 * Renders the sprite font.
-	 *
-	 * @returns {object} Returns a promise.
-	 */
-	render() {
-		return new Promise((resolve, reject) => {
-			if (this.isRendered) {
-				resolve();
-			}
-
-			if (!this.stencil instanceof Image) {
-				reject();
-			}
-
-			if (this.stencil.complete) {
-				this.renderSync();
-				resolve();
-			}
-			else {
-				this.stencil.addEventListener('load', () => {
-					this.renderSync();
-					resolve();
-				});
-			}
-		});
-	}
-
-	/**
-	 * Expects the stencil image to be loaded already, renders the sprite font.
-	 *
-	 * @returns {void}
-	 */
-	renderSync(): void {
-		if (!this.stencil.complete) {
-			this.isRendered = false;
-			return;
-		}
-
-		this.stencilWidth = this.stencil.width;
-		this.stencilHeight = this.stencil.height;
-		this.characterWidth = this.stencil.width / this.cols;
-		this.characterHeight = this.stencil.height / this.rows;
-
-		this.canvas = document.createElement('canvas');
-		this.canvas.width = this.stencilWidth * this.fgColors.length;
-		this.canvas.height = this.stencilHeight * this.bgColors.length;
-		this.context = this.canvas.getContext('2d');
-
-		for (var i = 0; i < this.bgColors.length; i++) {
-			for (var j = 0; j < this.fgColors.length; j++) {
-				let offsetX: number = j * this.stencilWidth;
-				let offsetY: number = i * this.stencilHeight;
-
-				this.index[this.bgColors[i] + this.fgColors[j]] = {
-					offsetX : offsetX,
-					offsetY : offsetY
-				};
-
-				this._renderPart(
-					offsetX,
-					offsetY,
-					this.bgColors[i],
-					this.fgColors[j]
-				);
-			}
-		}
-
-		this.isRendered = true;
-	}
-
-	/**
-	 * Draws the spcified letter to the specified context.
-	 *
-	 * @param {object} context
-	 * @param {number} char
-	 * @param {string} bgColor
-	 * @param {string} fgColor
-	 * @param {number} posX
-	 * @param {number} posY
-	 *
-	 * @returns {void}
-	 */
-	letMeDrawIt(
-		context: object,
-		char: number,
-		bgColor: string,
-		fgColor: string,
-		posX: number,
-		posY: number
-	): void {
-		if (!this.isRendered) {
-			return;
-		}
-
-		let [x, y] = this._getLetterPosition(char, bgColor, fgColor);
-
-		context.drawImage(
-			this.canvas,
-			x, y,
-			this.characterWidth,
-			this.characterHeight,
-			posX, posY,
-			this.characterWidth,
-			this.characterHeight
-		);
-	}
-
-	/**
-	 * Returns with the position of the specified letter.
-	 *
-	 * @param {number} char
-	 * @param {string} bgColor
-	 * @param {string} fgColor
-	 *
-	 * @returns {array}
-	 */
-	_getLetterPosition(char: number, bgColor: string, fgColor: string): array {
-		if (!this.isRendered) {
-			return [0, 0];
-		}
-
-		let offsetX: number = this.index[bgColor + fgColor].offsetX;
-		let offsetY: number = this.index[bgColor + fgColor].offsetY;
-
-		let x: number = Math.floor(char / this.rows) * this.characterWidth;
-		let y: number = Math.floor(char % this.rows) * this.characterHeight;
-
-		return [x + offsetX, y + offsetY];
-	}
-
-	_renderPart(
-		offsetX: number,
-		offsetY: number,
-		bgColor: string,
-		fgColor: string
-	): void {
-		this.context.imageSmoothingEnabled = false;
-
-		this.context.save();
-
-		this.context.beginPath();
-		this.context.rect(offsetX, offsetY, this.stencilWidth,
-			this.stencilHeight);
-		this.context.clip();
-
-		/* Draws sprite on the canvas */
-		this.context.drawImage(this.stencil, offsetX, offsetY);
-
-		/* Fills foreground */
-		this.context.globalCompositeOperation = 'source-in';
-		this.context.fillStyle = fgColor;
-		this.context.fillRect(offsetX, offsetY, this.stencilWidth,
-			this.stencilHeight);
-
-		/* Fills background */
-		this.context.globalCompositeOperation = 'destination-over';
-		this.context.fillStyle = bgColor;
-		this.context.fillRect(offsetX, offsetY, this.stencilWidth,
-			this.stencilHeight);
-
-		this.context.restore();
 	}
 }
+
+export function render(
+	stencilBuffer: array,
+	stencilWidth: number,
+	bgColors: array,
+	fgColors: array
+) {
+	let stencilHeight = getStencilHeight(stencilBuffer, stencilWidth);
+
+	let stencil = FunPaint.createCanvasFromImageBuffer(
+	 	stencilBuffer, stencilWidth, stencilHeight);
+
+	let canvas = FunPaint.createCanvas(
+		stencilWidth * bgColors.length,
+		stencilHeight * fgColors.length
+	);
+
+	forEachColor(bgColors, fgColors, stencilWidth, stencilHeight,
+		(bgColor, fgColor, x, y) => {
+			canvas = FunPaint.drawRect(
+				canvas, x, y, stencilWidth, stencilHeight, bgColor);
+
+			let colored = FunPaint.replaceColor(stencil, [0, 0, 0], fgColor);
+				canvas = FunPaint.drawCanvas(canvas, colored, x, y);
+		});
+
+	return canvas;
+};
