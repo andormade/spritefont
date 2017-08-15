@@ -1,9 +1,13 @@
 import * as FunPaint from 'functional-paint';
+import { getCharacterCoordinatesOnStencil, getCharacterCoordinatesOnSprite,
+	getCharacterCoordinatesOnSpriteInPixels, DIRECTION_TOP_TO_BOTTOM,
+	DIRECTION_LEFT_TO_RIGHT } from './utils';
+
+export { getCharacterCoordinatesOnStencil, getCharacterCoordinatesOnSprite,
+	getCharacterCoordinatesOnSpriteInPixels, DIRECTION_TOP_TO_BOTTOM,
+	DIRECTION_LEFT_TO_RIGHT }
 
 const DEFAULT_CHANNEL_COUNT = 4;
-
-export const DIRECTION_TOP_TO_BOTTOM = Symbol('ttb');
-export const DIRECTION_LEFT_TO_RIGHT = Symbol('ltr');
 
 function getStencilHeight(buffer, width) {
 	return (buffer.length / DEFAULT_CHANNEL_COUNT) / width;
@@ -26,23 +30,10 @@ function forEachColor(
 	}
 }
 
-export function getCharacterCoordinates(
-	rows: number,
-	cols: number,
-	pos: number,
-	direction: mixed = DIRECTION_TOP_TO_BOTTOM
-) {
-	if (direction === DIRECTION_LEFT_TO_RIGHT) {
-		return [
-			pos % rows,
-			Math.floor(pos / rows)
-		];
-	}
-
-	return [
-		Math.floor(pos / cols),
-		pos % cols
-	];
+function renderGlyphs(stencil, fgColor) {
+	return FunPaint.mapPixels(stencil, (x, y, pos, color) => (
+		color[3] !== 0x00) ? fgColor : color
+	);
 }
 
 export function render(
@@ -64,14 +55,16 @@ export function render(
 			canvas = FunPaint.drawRect(
 				canvas, x, y, stencilWidth, stencilHeight, bgColor);
 
-			let colored = FunPaint.replaceColor(stencil, [0, 0, 0], fgColor);
+			let colored = renderGlyphs(stencil, fgColor);
+
 			canvas = FunPaint.drawCanvas(canvas, colored, x, y);
 		});
 
 	return {
-		bgColors     : [...bgColors],
-		fgColors     : [...fgColors],
-		stencilWidth : stencilWidth,
+		bgColors      : [...bgColors],
+		fgColors      : [...fgColors],
+		stencilWidth  : stencilWidth,
+		stencilHeight : stencilHeight,
 		...canvas
 	};
 };
