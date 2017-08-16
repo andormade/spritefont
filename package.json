@@ -12,13 +12,14 @@
     "font",
     "letter"
   ],
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Renders sprite fonts",
   "main": "dist/index.js",
   "scripts": {
     "build": "babel src --out-dir dist",
     "prepare": "npm run build",
-    "test": "npm run build && mocha"
+    "test": "npm run build && mocha",
+	"example": "node example/example.js"
   },
   "repository": {
     "type": "git",
