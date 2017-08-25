@@ -30,8 +30,8 @@ function forEachColor(
 	}
 }
 
-function renderGlyphs(stencil, fgColor) {
-	return FunPaint.mapPixels(stencil, (x, y, pos, color) => (
+function renderGlyphs(stencil, width, fgColor) {
+	return FunPaint.mapPixels(stencil, width, true, (x, y, pos, color) => (
 		color[3] !== 0x00) ? fgColor : color
 	);
 }
@@ -43,21 +43,21 @@ export function render(
 	fgColors: array
 ) {
 	let stencilHeight = getStencilHeight(stencilBuffer, stencilWidth);
+	let width = stencilWidth * bgColors.length;
+	let height = stencilHeight * fgColors.length;
 
-	let stencil = FunPaint.createCanvasFromImageBuffer(
-	 	stencilBuffer, stencilWidth, stencilHeight);
-
-	let canvas = FunPaint.createCanvas(
-		stencilWidth * bgColors.length, stencilHeight * fgColors.length);
+	let buffer = FunPaint.createImageBuffer(width, height);
 
 	forEachColor(bgColors, fgColors, stencilWidth, stencilHeight,
 		(bgColor, fgColor, x, y) => {
-			canvas = FunPaint.drawRect(
-				canvas, x, y, stencilWidth, stencilHeight, bgColor);
+			buffer = FunPaint.drawRect(
+				buffer, width, true, x, y, stencilWidth, stencilHeight, bgColor
+			);
 
-			let colored = renderGlyphs(stencil, fgColor);
+			let colored = renderGlyphs(stencilBuffer, stencilWidth, fgColor);
 
-			canvas = FunPaint.drawCanvas(canvas, colored, x, y);
+			buffer = FunPaint.drawBuffer(
+				buffer, width, true, colored, stencilWidth, true, x, y);
 		});
 
 	return {
@@ -65,6 +65,6 @@ export function render(
 		fgColors      : [...fgColors],
 		stencilWidth  : stencilWidth,
 		stencilHeight : stencilHeight,
-		...canvas
+		data          : buffer
 	};
 };
