@@ -13,7 +13,13 @@ function getStencilHeight(buffer, width) {
 	return (buffer.length / DEFAULT_CHANNEL_COUNT) / width;
 }
 
-function forEachColor(bgColors, fgColors, stencilWidth, stencilHeight, callback) {
+function forEachColor(
+	bgColors: array,
+	fgColors: array,
+	stencilWidth: number,
+	stencilHeight: number,
+	callback: mixed
+) {
 	for (let i = 0; i < bgColors.length; i++) {
 		for (let j = 0; j < fgColors.length; j++) {
 			let bgColor = FunPaint.hexColorToArray(bgColors[i]),
@@ -30,7 +36,12 @@ function renderGlyphs(stencil, width, fgColor) {
 	);
 }
 
-export function render(stencilBuffer, stencilWidth, bgColors, fgColors) {
+export function render(
+	stencilBuffer: array,
+	stencilWidth: number,
+	bgColors: array,
+	fgColors: array
+) {
 	let stencilHeight = getStencilHeight(stencilBuffer, stencilWidth);
 	let width = stencilWidth * bgColors.length;
 	let height = stencilHeight * fgColors.length;

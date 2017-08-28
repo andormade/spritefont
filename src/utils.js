@@ -2,7 +2,10 @@ export const DIRECTION_TOP_TO_BOTTOM = Symbol('ttb');
 export const DIRECTION_LEFT_TO_RIGHT = Symbol('ltr');
 
 export function getCharacterCoordinatesOnStencil(
-	rows, cols, pos, direction = DIRECTION_TOP_TO_BOTTOM
+	rows: number,
+	cols: number,
+	pos: number,
+	direction: mixed = DIRECTION_TOP_TO_BOTTOM
 ) {
 	if (direction === DIRECTION_LEFT_TO_RIGHT) {
 		return [
@@ -18,7 +21,13 @@ export function getCharacterCoordinatesOnStencil(
 }
 
 export function getCharacterCoordinatesOnSprite(
-	sprite, bgColor, fgColor, rows, cols, pos, direction = DIRECTION_TOP_TO_BOTTOM
+	sprite: object,
+	bgColor: string,
+	fgColor: string,
+	rows: number,
+	cols: number,
+	pos: number,
+	direction: mixed = DIRECTION_TOP_TO_BOTTOM
 ) {
 	let bgColorPos = sprite.bgColors.indexOf(bgColor);
 	let fgColorPos = sprite.fgColors.indexOf(fgColor);
@@ -31,7 +40,13 @@ export function getCharacterCoordinatesOnSprite(
 }
 
 export function getCharacterCoordinatesOnSpriteInPixels(
-	sprite, bgColor, fgColor, rows, cols, pos, direction = DIRECTION_TOP_TO_BOTTOM
+	sprite: object,
+	bgColor: string,
+	fgColor: string,
+	rows: number,
+	cols: number,
+	pos: number,
+	direction: mixed = DIRECTION_TOP_TO_BOTTOM
 ) {
 	let [x, y] = getCharacterCoordinatesOnSprite(
 		sprite, bgColor, fgColor, rows, cols, pos, direction);
