@@ -22,7 +22,7 @@
     "build": "babel src --out-dir dist",
     "prepare": "npm run build",
     "test": "npm run build && mocha",
-	"example": "node example/example.js"
+    "example": "node example/example.js"
   },
   "repository": {
     "type": "git",
