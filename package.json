@@ -12,7 +12,7 @@
     "font",
     "letter"
   ],
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Renders sprite fonts",
   "main": "dist/index.js",
   "bin": {
@@ -29,17 +29,17 @@
     "url": "git@github.com:andormade/spritefont.git"
   },
   "devDependencies": {
-    "babel-cli": "^6.24.1",
+    "babel-cli": "^6.26.0",
     "babel-plugin-add-module-exports": "^0.2.1",
-    "babel-plugin-transform-object-rest-spread": "^6.23.0",
-    "babel-preset-env": "^1.6.0",
-    "mocha": "^3.4.2",
-    "nyc": "^11.0.3",
-    "pngjs": "^3.2.0"
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "babel-preset-env": "^1.6.1",
+    "mocha": "^5.0.1",
+    "nyc": "^11.4.1",
+    "pngjs": "^3.3.2"
   },
   "dependencies": {
-    "functional-paint": "0.2.0",
-    "commander": "^2.11.0",
-    "pngjs": "^3.3.0"
+    "functional-paint": "0.3.0",
+    "commander": "^2.14.1",
+    "pngjs": "^3.3.2"
   }
 }

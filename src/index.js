@@ -25,7 +25,7 @@ function forEachColor(bgColors, fgColors, stencilWidth, stencilHeight, callback)
 }
 
 function renderGlyphs(stencil, width, fgColor) {
-	return FunPaint.mapPixels(stencil, width, true, (x, y, pos, color) => (
+	return FunPaint.mapPixels(stencil, width, (x, y, pos, color) => (
 		color[3] !== 0x00) ? fgColor : color
 	);
 }
@@ -40,13 +40,13 @@ export function render(stencilBuffer, stencilWidth, bgColors, fgColors) {
 	forEachColor(bgColors, fgColors, stencilWidth, stencilHeight,
 		(bgColor, fgColor, x, y) => {
 			buffer = FunPaint.drawRect(
-				buffer, width, true, x, y, stencilWidth, stencilHeight, bgColor
+				buffer, width, x, y, stencilWidth, stencilHeight, bgColor
 			);
 
 			let colored = renderGlyphs(stencilBuffer, stencilWidth, fgColor);
 
 			buffer = FunPaint.drawBuffer(
-				buffer, width, true, colored, stencilWidth, true, x, y);
+				buffer, width, colored, stencilWidth, x, y);
 		});
 
 	return {
