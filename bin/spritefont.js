@@ -7,17 +7,23 @@ var fs = require('fs');
 
 program
 	.arguments('<file>')
-	.option('-c, --colors <colors>', 'List of colors separated by space characters.')
+	.option(
+		'-c, --colors <colors>',
+		'List of colors separated by space characters.'
+	)
 	.option('-o, --out <out>', 'The output file.')
 	.action(function(file) {
-
 		let colors = program.colors.split(' ');
 
-		fs.createReadStream(file)
+		fs
+			.createReadStream(file)
 			.pipe(new PNG())
 			.on('parsed', function() {
 				let spriteFont = SpriteFont.render(
-					this.data, this.width, colors, colors
+					this.data,
+					this.width,
+					colors,
+					colors
 				);
 
 				this.data = spriteFont.data;
