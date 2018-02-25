@@ -1,10 +1,22 @@
-
 var SpriteFont = require('../dist/index.js'),
 	fs = require('fs'),
 	assert = require('assert'),
 	PNG = require('pngjs').PNG;
 
 describe('getCharacterCoordinatesOnStencil', function() {
+	const testData = [
+		[2, 5, 0],
+		[2, 5, 1],
+		[2, 5, 2],
+		[2, 5, 3],
+		[2, 5, 4],
+		[2, 5, 5],
+		[2, 5, 6],
+		[2, 5, 7],
+		[2, 5, 8],
+		[2, 5, 9]
+	];
+
 	it('should return', function() {
 		const stencil = PNG.sync.read(fs.readFileSync('./test/numeric.png'));
 
@@ -15,46 +27,29 @@ describe('getCharacterCoordinatesOnStencil', function() {
 			['#ffffff']
 		);
 
-		assert.deepEqual(SpriteFont.getCharacterCoordinatesOnStencil(2, 5, 0), [
-			0,
-			0
-		]);
-		assert.deepEqual(SpriteFont.getCharacterCoordinatesOnStencil(2, 5, 1), [
-			0,
-			1
-		]);
-		assert.deepEqual(SpriteFont.getCharacterCoordinatesOnStencil(2, 5, 2), [
-			0,
-			2
-		]);
-		assert.deepEqual(SpriteFont.getCharacterCoordinatesOnStencil(2, 5, 3), [
-			0,
-			3
-		]);
-		assert.deepEqual(SpriteFont.getCharacterCoordinatesOnStencil(2, 5, 4), [
-			0,
-			4
-		]);
-		assert.deepEqual(SpriteFont.getCharacterCoordinatesOnStencil(2, 5, 5), [
-			1,
-			0
-		]);
-		assert.deepEqual(SpriteFont.getCharacterCoordinatesOnStencil(2, 5, 6), [
-			1,
-			1
-		]);
-		assert.deepEqual(SpriteFont.getCharacterCoordinatesOnStencil(2, 5, 7), [
-			1,
-			2
-		]);
-		assert.deepEqual(SpriteFont.getCharacterCoordinatesOnStencil(2, 5, 8), [
-			1,
-			3
-		]);
-		assert.deepEqual(SpriteFont.getCharacterCoordinatesOnStencil(2, 5, 9), [
-			1,
-			4
-		]);
+		const testResults = [
+			[0, 0],
+			[0, 1],
+			[0, 2],
+			[0, 3],
+			[0, 4],
+			[1, 0],
+			[1, 1],
+			[1, 2],
+			[1, 3],
+			[1, 4]
+		];
+
+		testData.forEach((data, index) => {
+			assert.deepEqual(
+				SpriteFont.getCharacterCoordinatesOnStencil(
+					data[0],
+					data[1],
+					data[2]
+				),
+				testResults[index]
+			);
+		});
 	});
 
 	it('should return', function() {
@@ -67,95 +62,29 @@ describe('getCharacterCoordinatesOnStencil', function() {
 			['#ffffff']
 		);
 
-		assert.deepEqual(
-			SpriteFont.getCharacterCoordinatesOnStencil(
-				2,
-				5,
-				0,
-				SpriteFont.DIRECTION_LEFT_TO_RIGHT
-			),
-			[0, 0]
-		);
-		assert.deepEqual(
-			SpriteFont.getCharacterCoordinatesOnStencil(
-				2,
-				5,
-				1,
-				SpriteFont.DIRECTION_LEFT_TO_RIGHT
-			),
-			[1, 0]
-		);
-		assert.deepEqual(
-			SpriteFont.getCharacterCoordinatesOnStencil(
-				2,
-				5,
-				2,
-				SpriteFont.DIRECTION_LEFT_TO_RIGHT
-			),
-			[0, 1]
-		);
-		assert.deepEqual(
-			SpriteFont.getCharacterCoordinatesOnStencil(
-				2,
-				5,
-				3,
-				SpriteFont.DIRECTION_LEFT_TO_RIGHT
-			),
-			[1, 1]
-		);
-		assert.deepEqual(
-			SpriteFont.getCharacterCoordinatesOnStencil(
-				2,
-				5,
-				4,
-				SpriteFont.DIRECTION_LEFT_TO_RIGHT
-			),
-			[0, 2]
-		);
-		assert.deepEqual(
-			SpriteFont.getCharacterCoordinatesOnStencil(
-				2,
-				5,
-				5,
-				SpriteFont.DIRECTION_LEFT_TO_RIGHT
-			),
-			[1, 2]
-		);
-		assert.deepEqual(
-			SpriteFont.getCharacterCoordinatesOnStencil(
-				2,
-				5,
-				6,
-				SpriteFont.DIRECTION_LEFT_TO_RIGHT
-			),
-			[0, 3]
-		);
-		assert.deepEqual(
-			SpriteFont.getCharacterCoordinatesOnStencil(
-				2,
-				5,
-				7,
-				SpriteFont.DIRECTION_LEFT_TO_RIGHT
-			),
-			[1, 3]
-		);
-		assert.deepEqual(
-			SpriteFont.getCharacterCoordinatesOnStencil(
-				2,
-				5,
-				8,
-				SpriteFont.DIRECTION_LEFT_TO_RIGHT
-			),
-			[0, 4]
-		);
-		assert.deepEqual(
-			SpriteFont.getCharacterCoordinatesOnStencil(
-				2,
-				5,
-				9,
-				SpriteFont.DIRECTION_LEFT_TO_RIGHT
-			),
+		const testResults = [
+			[0, 0],
+			[1, 0],
+			[0, 1],
+			[1, 1],
+			[0, 2],
+			[1, 2],
+			[0, 3],
+			[1, 3],
+			[0, 4],
 			[1, 4]
-		);
+		];
+
+		testData.forEach((data, index) => {
+			assert.deepEqual(
+				SpriteFont.getCharacterCoordinatesOnStencil(
+					data[0],
+					data[1],
+					data[2],
+					SpriteFont.DIRECTION_LEFT_TO_RIGHT
+				),
+				testResults[index]
+			);
+		});
 	});
 });

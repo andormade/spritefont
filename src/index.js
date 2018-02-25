@@ -30,8 +30,8 @@ function forEachColor(
 ) {
 	for (let i = 0; i < bgColors.length; i++) {
 		for (let j = 0; j < fgColors.length; j++) {
-			let bgColor = FunPaint.hexColorToArray(bgColors[i]),
-				fgColor = FunPaint.hexColorToArray(fgColors[j]);
+			const bgColor = FunPaint.hexColorToArray(bgColors[i]);
+			const fgColor = FunPaint.hexColorToArray(fgColors[j]);
 
 			callback(bgColor, fgColor, i * stencilWidth, j * stencilHeight);
 		}
@@ -47,9 +47,9 @@ function renderGlyphs(stencil, width, fgColor) {
 }
 
 export function render(stencilBuffer, stencilWidth, bgColors, fgColors) {
-	let stencilHeight = getStencilHeight(stencilBuffer, stencilWidth);
-	let width = stencilWidth * bgColors.length;
-	let height = stencilHeight * fgColors.length;
+	const stencilHeight = getStencilHeight(stencilBuffer, stencilWidth);
+	const width = stencilWidth * bgColors.length;
+	const height = stencilHeight * fgColors.length;
 
 	let buffer = FunPaint.createImageBuffer(width, height);
 
