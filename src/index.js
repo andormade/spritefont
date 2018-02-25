@@ -82,11 +82,5 @@ export function render(stencilBuffer, stencilWidth, bgColors, fgColors) {
 		}
 	);
 
-	return {
-		bgColors: [...bgColors],
-		fgColors: [...fgColors],
-		stencilWidth: stencilWidth,
-		stencilHeight: stencilHeight,
-		data: buffer
-	};
+	return buffer;
 }

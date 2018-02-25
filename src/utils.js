@@ -15,41 +15,38 @@ export function getCharacterCoordinatesOnStencil(
 }
 
 export function getCharacterCoordinatesOnSprite(
-	sprite,
-	bgColor,
-	fgColor,
+	indexOfBgColor,
+	indexOfFgColor,
 	rows,
 	cols,
 	pos,
 	direction = DIRECTION_TOP_TO_BOTTOM
 ) {
-	let bgColorPos = sprite.bgColors.indexOf(bgColor);
-	let fgColorPos = sprite.fgColors.indexOf(fgColor);
-	let [x, y] = getCharacterCoordinatesOnStencil(rows, cols, pos, direction);
+	const [x, y] = getCharacterCoordinatesOnStencil(rows, cols, pos, direction);
 
-	return [x + bgColorPos * cols, y + fgColorPos * rows];
+	return [x + indexOfBgColor * cols, y + indexOfFgColor * rows];
 }
 
 export function getCharacterCoordinatesOnSpriteInPixels(
-	sprite,
-	bgColor,
-	fgColor,
+	stencilWidth,
+	stencilHeight,
+	indexOfBgColor,
+	indexOfFgColor,
 	rows,
 	cols,
 	pos,
 	direction = DIRECTION_TOP_TO_BOTTOM
 ) {
-	let [x, y] = getCharacterCoordinatesOnSprite(
-		sprite,
-		bgColor,
-		fgColor,
+	const [x, y] = getCharacterCoordinatesOnSprite(
+		indexOfBgColor,
+		indexOfFgColor,
 		rows,
 		cols,
 		pos,
 		direction
 	);
-	let characterWidth = sprite.stencilWidth / cols;
-	let characterHeight = sprite.stencilHeight / rows;
+	const characterWidth = stencilWidth / cols;
+	const characterHeight = stencilHeight / rows;
 
 	return [x * characterWidth, y * characterHeight];
 }

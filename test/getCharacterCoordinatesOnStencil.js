@@ -1,38 +1,14 @@
+
 var SpriteFont = require('../dist/index.js'),
 	fs = require('fs'),
 	assert = require('assert'),
 	PNG = require('pngjs').PNG;
 
-describe('render', function() {
-	it('should return', function() {
-		let stencil = PNG.sync.read(fs.readFileSync('./test/numeric.png'));
-		let testImage = PNG.sync.read(fs.readFileSync('./test/test1.png'));
-
-		let canvas = SpriteFont.render(
-			stencil.data,
-			26,
-			[
-				'#ffffff',
-				'#000000',
-				'#ff0000',
-				'#00ff00',
-				'#0000ff',
-				'#ffff00',
-				'#00ffff',
-				'#ff00ff'
-			],
-			['#ffffff', '#000000']
-		);
-
-		assert.deepEqual(canvas.data, testImage.data);
-	});
-});
-
 describe('getCharacterCoordinatesOnStencil', function() {
 	it('should return', function() {
-		let stencil = PNG.sync.read(fs.readFileSync('./test/numeric.png'));
+		const stencil = PNG.sync.read(fs.readFileSync('./test/numeric.png'));
 
-		let spritefont = SpriteFont.render(
+		const spritefont = SpriteFont.render(
 			stencil.data,
 			26,
 			['#ffffff'],
@@ -82,9 +58,9 @@ describe('getCharacterCoordinatesOnStencil', function() {
 	});
 
 	it('should return', function() {
-		let stencil = PNG.sync.read(fs.readFileSync('./test/numeric.png'));
+		const stencil = PNG.sync.read(fs.readFileSync('./test/numeric.png'));
 
-		let spritefont = SpriteFont.render(
+		const spritefont = SpriteFont.render(
 			stencil.data,
 			26,
 			['#ffffff'],
