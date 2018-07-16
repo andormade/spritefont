@@ -1,4 +1,4 @@
-var SpriteFont = require('../dist/index.js'),
+var SpriteFont = require('../src/index.js'),
 	fs = require('fs'),
 	assert = require('assert'),
 	PNG = require('pngjs').PNG;
@@ -14,7 +14,7 @@ describe('getCharacterCoordinatesOnStencil', function() {
 		[2, 5, 6],
 		[2, 5, 7],
 		[2, 5, 8],
-		[2, 5, 9]
+		[2, 5, 9],
 	];
 
 	it('should return', function() {
@@ -37,7 +37,7 @@ describe('getCharacterCoordinatesOnStencil', function() {
 			[1, 1],
 			[1, 2],
 			[1, 3],
-			[1, 4]
+			[1, 4],
 		];
 
 		testData.forEach((data, index) => {
@@ -72,7 +72,7 @@ describe('getCharacterCoordinatesOnStencil', function() {
 			[0, 3],
 			[1, 3],
 			[0, 4],
-			[1, 4]
+			[1, 4],
 		];
 
 		testData.forEach((data, index) => {

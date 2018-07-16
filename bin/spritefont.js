@@ -15,8 +15,7 @@ program
 	.action(function(file) {
 		let colors = program.colors.split(' ');
 
-		fs
-			.createReadStream(file)
+		fs.createReadStream(file)
 			.pipe(new PNG())
 			.on('parsed', function() {
 				let spriteFont = SpriteFont.render(

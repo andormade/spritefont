@@ -1,4 +1,4 @@
-var SpriteFont = require('../dist/index.js'),
+var SpriteFont = require('../src/index'),
 	fs = require('fs'),
 	assert = require('assert'),
 	PNG = require('pngjs').PNG;
@@ -19,7 +19,7 @@ describe('render', function() {
 				'#0000ff',
 				'#ffff00',
 				'#00ffff',
-				'#ff00ff'
+				'#ff00ff',
 			],
 			['#ffffff', '#000000']
 		);

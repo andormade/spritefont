@@ -1,7 +1,7 @@
-var PNG = require('pngjs').PNG;
+var { PNG } = require('pngjs');
 var fs = require('fs');
 var path = require('path');
-var SpriteFont = require('../dist/index');
+var SpriteFont = require('../src/index');
 
 var colors = [
 	'#000000',
@@ -11,7 +11,7 @@ var colors = [
 	'#ff0000',
 	'#ff00ff',
 	'#ffff00',
-	'#ffffff'
+	'#ffffff',
 ];
 
 var stencilFile = path.resolve(__dirname, 'numeric.png');
@@ -21,7 +21,7 @@ fs
 	.createReadStream(stencilFile)
 	.pipe(new PNG())
 	.on('parsed', function() {
-		let spriteFont = SpriteFont.render(
+		const spriteFont = SpriteFont.render(
 			this.data,
 			this.width,
 			colors,

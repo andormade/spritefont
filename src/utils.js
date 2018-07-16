@@ -1,7 +1,7 @@
-export const DIRECTION_TOP_TO_BOTTOM = Symbol('ttb');
-export const DIRECTION_LEFT_TO_RIGHT = Symbol('ltr');
+const DIRECTION_TOP_TO_BOTTOM = Symbol('ttb');
+const DIRECTION_LEFT_TO_RIGHT = Symbol('ltr');
 
-export function getCharacterCoordinatesOnStencil(
+const getCharacterCoordinatesOnStencil = function(
 	rows,
 	cols,
 	pos,
@@ -12,9 +12,9 @@ export function getCharacterCoordinatesOnStencil(
 	}
 
 	return [Math.floor(pos / cols), pos % cols];
-}
+};
 
-export function getCharacterCoordinatesOnSprite(
+const getCharacterCoordinatesOnSprite = function(
 	indexOfBgColor,
 	indexOfFgColor,
 	rows,
@@ -25,9 +25,9 @@ export function getCharacterCoordinatesOnSprite(
 	const [x, y] = getCharacterCoordinatesOnStencil(rows, cols, pos, direction);
 
 	return [x + indexOfBgColor * cols, y + indexOfFgColor * rows];
-}
+};
 
-export function getCharacterCoordinatesOnSpriteInPixels(
+const getCharacterCoordinatesOnSpriteInPixels = function(
 	stencilWidth,
 	stencilHeight,
 	indexOfBgColor,
@@ -49,4 +49,12 @@ export function getCharacterCoordinatesOnSpriteInPixels(
 	const characterHeight = stencilHeight / rows;
 
 	return [x * characterWidth, y * characterHeight];
-}
+};
+
+module.exports = {
+	DIRECTION_TOP_TO_BOTTOM,
+	DIRECTION_LEFT_TO_RIGHT,
+	getCharacterCoordinatesOnStencil,
+	getCharacterCoordinatesOnSprite,
+	getCharacterCoordinatesOnSpriteInPixels,
+};

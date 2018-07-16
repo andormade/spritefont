@@ -1,27 +1,19 @@
-import * as FunPaint from 'functional-paint';
-import {
+const FunPaint = require('functional-paint');
+const {
 	getCharacterCoordinatesOnStencil,
 	getCharacterCoordinatesOnSprite,
 	getCharacterCoordinatesOnSpriteInPixels,
 	DIRECTION_TOP_TO_BOTTOM,
-	DIRECTION_LEFT_TO_RIGHT
-} from './utils';
-
-export {
-	getCharacterCoordinatesOnStencil,
-	getCharacterCoordinatesOnSprite,
-	getCharacterCoordinatesOnSpriteInPixels,
-	DIRECTION_TOP_TO_BOTTOM,
-	DIRECTION_LEFT_TO_RIGHT
-};
+	DIRECTION_LEFT_TO_RIGHT,
+} = require('./utils');
 
 const DEFAULT_CHANNEL_COUNT = 4;
 
-function getStencilHeight(buffer, width) {
+const getStencilHeight = function(buffer, width) {
 	return buffer.length / DEFAULT_CHANNEL_COUNT / width;
-}
+};
 
-function forEachColor(
+const forEachColor = function(
 	bgColors,
 	fgColors,
 	stencilWidth,
@@ -36,17 +28,17 @@ function forEachColor(
 			callback(bgColor, fgColor, i * stencilWidth, j * stencilHeight);
 		}
 	}
-}
+};
 
-function renderGlyphs(stencil, width, fgColor) {
+const renderGlyphs = function(stencil, width, fgColor) {
 	return FunPaint.mapPixels(
 		stencil,
 		width,
 		(x, y, pos, color) => (color[3] !== 0x00 ? fgColor : color)
 	);
-}
+};
 
-export function render(stencilBuffer, stencilWidth, bgColors, fgColors) {
+const render = function(stencilBuffer, stencilWidth, bgColors, fgColors) {
 	const stencilHeight = getStencilHeight(stencilBuffer, stencilWidth);
 	const width = stencilWidth * bgColors.length;
 	const height = stencilHeight * fgColors.length;
@@ -83,4 +75,13 @@ export function render(stencilBuffer, stencilWidth, bgColors, fgColors) {
 	);
 
 	return buffer;
-}
+};
+
+module.exports = {
+	getCharacterCoordinatesOnStencil,
+	getCharacterCoordinatesOnSprite,
+	getCharacterCoordinatesOnSpriteInPixels,
+	DIRECTION_TOP_TO_BOTTOM,
+	DIRECTION_LEFT_TO_RIGHT,
+	render,
+};
