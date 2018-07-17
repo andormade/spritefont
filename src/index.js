@@ -9,9 +9,8 @@ const {
 
 const DEFAULT_CHANNEL_COUNT = 4;
 
-const getStencilHeight = function(buffer, width) {
-	return buffer.length / DEFAULT_CHANNEL_COUNT / width;
-};
+const getStencilHeight = (buffer, width) =>
+	buffer.length / DEFAULT_CHANNEL_COUNT / width;
 
 const forEachColor = function(
 	bgColors,
@@ -30,13 +29,12 @@ const forEachColor = function(
 	}
 };
 
-const renderGlyphs = function(stencil, width, fgColor) {
-	return FunPaint.mapPixels(
+const renderGlyphs = (stencil, width, fgColor) =>
+	FunPaint.mapPixels(
 		stencil,
 		width,
 		(x, y, pos, color) => (color[3] !== 0x00 ? fgColor : color)
 	);
-};
 
 const render = function(stencilBuffer, stencilWidth, bgColors, fgColors) {
 	const stencilHeight = getStencilHeight(stencilBuffer, stencilWidth);

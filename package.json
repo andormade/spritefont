@@ -12,9 +12,9 @@
     "font",
     "letter"
   ],
-  "version": "1.1.1",
+  "version": "1.1.3",
   "description": "Renders sprite fonts",
-  "main": "dist/index.js",
+  "main": "src/index.js",
   "bin": {
     "spritefont": "./bin/spritefont.js"
   },
@@ -37,7 +37,7 @@
   },
   "dependencies": {
     "functional-paint": "0.3.3",
-    "commander": "^2.14.1",
-    "pngjs": "^3.3.2"
+    "commander": "^2.16.0",
+    "pngjs": "^3.3.3"
   }
 }
